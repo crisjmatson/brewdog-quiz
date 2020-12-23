@@ -27,17 +27,58 @@ interface QuestionOption {
 }
 
 var styles = {
-	questionOption: {
-		width: "80%",
-		height: "7vh",
-		backgroundColor: "orange",
+	outerContainer: {
+		minWidth: "100vw",
+		minHeight: "100vh",
+		backgroundColor: "rgba(56, 18, 8, 0.5)",
+		backgroundImage:
+			"url(https://images.unsplash.com/photo-1505075106905-fb052892c116?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80)",
+		backgroundBlendMode: "overlay",
+		backgroundSize: "cover",
+		backgroundAttachment: "fixed",
+		fontFamily: "'Space Grotesk', sans-serif",
+		display: "flex",
+		flexFlow: "column wrap",
+		alignContent: "center",
+		justifyContent: "center",
+	},
+	currentpromptNumber: {
 		color: "white",
+		fontSize: "5vw",
+		fontWeight: 900,
+		padding: "0vw",
+		margin: "0vw",
+	},
+	currentPrompt: {
+		color: "white",
+		fontSize: "2em",
+		fontWeight: 900,
+	},
+	optionContainer: {
+		width: "100%",
+		height: "auto",
+		display: "flex",
+		flexFlow: "column-reverse wrap",
+		justifyContent: "center",
+		alignItems: "center",
+		padding: ".5em",
+		margin: "0vw",
+	},
+	questionOption: {
+		width: "100%",
+		height: "7vh",
+		backgroundColor: "rgba(127,42,18,.8)",
+		color: "white",
+		fontSize: "1.7em",
+		overflow: "auto",
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
 		margin: "1vh",
-		padding: "1%",
-		fontWeight: 900,
+		padding: "3%",
+		fontWeight: 800,
+		border: "thin solid transparent",
+		borderRadius: "15px",
 	},
 };
 
@@ -57,7 +98,7 @@ export default class BeerQuiz extends Component<Props, State> {
 						{ option: "just a pinch", answer: 10 },
 						{ option: "I can handle a taste", answer: 12 },
 						{ option: "don't mind a bite", answer: 15 },
-						{ option: "you say hop, i say how high?", answer: 56 },
+						{ option: "do your worst!", answer: 56 },
 					],
 				},
 				{
@@ -85,7 +126,7 @@ export default class BeerQuiz extends Component<Props, State> {
 				{
 					prompt: "how old do you want the brew to be?",
 					options: [
-						{ option: "before  2007.", answer: "01-2007" },
+						{ option: "before  2007", answer: "01-2007" },
 						{ option: "before 2009", answer: "01-2009" },
 						{ option: "before 2011", answer: "01-2011" },
 						{ option: "before 2013", answer: "01-2013" },
@@ -302,18 +343,7 @@ export default class BeerQuiz extends Component<Props, State> {
 
 	render() {
 		return (
-			<div
-				style={{
-					width: "100%",
-					height: "100vh",
-					margin: "0",
-					backgroundImage:
-						"url(https://images.unsplash.com/photo-1505075106905-fb052892c116?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80)",
-					backgroundSize: "cover",
-					backgroundAttachment: "fixed",
-					fontFamily: "'Space Grotesk', sans-serif",
-				}}
-			>
+			<div>
 				{this.state.quizComplete ? (
 					<BeerResult
 						beerAnswer={this.state.beerAnswer}
@@ -321,48 +351,17 @@ export default class BeerQuiz extends Component<Props, State> {
 						random={this.state.random}
 					/>
 				) : (
-					<div>
+					<div style={styles.outerContainer}>
 						<div>
-							<div
-								style={{
-									height: "20vh",
-									margin: "10vw 10vw 5vw 10vw",
-								}}
-							>
-								<p
-									style={{
-										color: "white",
-										fontSize: "5vw",
-										lineHeight: ".8",
-										fontWeight: 900,
-										margin: "2vw",
-									}}
-								>
-									question #{this.state.currentQuestion + 1}
-								</p>
-								<p
-									style={{
-										color: "white",
-										fontSize: "9vw",
-										lineHeight: ".8",
-										fontWeight: 900,
-										margin: "2vw",
-									}}
-								>
-									{this.state.quiz[this.state.currentQuestion].prompt}
-								</p>
-							</div>
-							<div
-								style={{
-									width: "100%",
-									height: "100%",
-									display: "flex",
-									flexFlow: "column-reverse wrap",
-									justifyContent: "center",
-									alignItems: "center",
-									padding: "3vh",
-								}}
-							>
+							<p style={styles.currentpromptNumber}>
+								question #{this.state.currentQuestion + 1}
+							</p>
+							<p style={styles.currentPrompt}>
+								{this.state.quiz[this.state.currentQuestion].prompt}
+							</p>
+						</div>
+						<div>
+							<div style={styles.optionContainer}>
 								{this.state.quiz[this.state.currentQuestion].options.map(
 									(mappedOption) => {
 										let index = this.state.quiz[
