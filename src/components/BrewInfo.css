@@ -1,0 +1,33 @@
+@import "~antd/dist/antd.css";
+@import url("https://fonts.googleapis.com/css2?family=Lobster&family=Neucha&family=Space+Grotesk:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Source+Sans+Pro&display=swap");
+.ant-tabs {
+	/* text inside tab */
+	color: white;
+}
+.ant-tabs-tab-btn {
+	/* tab standard */
+	color: white;
+	font-size: 16px;
+	padding: 0;
+	margin: 1px;
+}
+.ant-tabs-tab:hover {
+	color: rgba(230, 186, 129, 0.9);
+}
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+	/* active tab */
+	color: rgba(230, 186, 129, 0.9);
+}
+.ant-tabs-tab.ant-tabs-tab-active {
+	/* active tab */
+	border-bottom: 2px solid rgba(112, 68, 11, 0.9) !important;
+	z-index: 2;
+}
+.ant-tabs-ink-bar {
+	/* bottom border */
+	background: rgba(112, 68, 11, 0.521);
+}
+.foodPair {
+	text-align: left;
+}

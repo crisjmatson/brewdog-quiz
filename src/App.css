@@ -1,8 +1,17 @@
 @import "~antd/dist/antd.css";
 @import url("https://fonts.googleapis.com/css2?family=Lobster&family=Neucha&family=Space+Grotesk:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Source+Sans+Pro&display=swap");
 a {
-	color: rgba(255, 189, 170, 0.9);
+	color: rgba(230, 186, 129, 0.9);
 }
 a:hover {
-	color: rgba(85, 41, 6, 1);
+	color: rgb(252, 238, 191);
+	text-decoration: line-through;
+}
+.App {
+	background-color: rgba(212, 114, 1, 0.99);
+	text-align: center;
+}
+html {
+	--antd-wave-shadow-color: rgb(252, 197, 80) !important;
 }

@@ -1,4 +1,5 @@
 import { Component } from "react";
+import Radium from "radium";
 import "./BeerQuiz.css";
 import BeerResult from "./BeerResult";
 import { Beer } from "./ResponseInterface";
@@ -26,13 +27,11 @@ interface QuestionOption {
 	answer: number | string;
 }
 
-var styles = {
+const styles = {
 	outerContainer: {
 		minWidth: "100vw",
 		minHeight: "100vh",
 		backgroundColor: "rgba(56, 18, 8, 0.5)",
-		backgroundImage:
-			"url(https://images.unsplash.com/photo-1505075106905-fb052892c116?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80)",
 		backgroundBlendMode: "overlay",
 		backgroundSize: "cover",
 		backgroundAttachment: "fixed",
@@ -65,7 +64,7 @@ var styles = {
 		margin: "0vw",
 	},
 	questionOption: {
-		width: "100%",
+		width: "80vw",
 		height: "7vh",
 		backgroundColor: "rgba(127,42,18,.8)",
 		color: "white",
@@ -79,10 +78,15 @@ var styles = {
 		fontWeight: 800,
 		border: "thin solid transparent",
 		borderRadius: "15px",
+		":hover": {
+			backgroundColor: "rgba(212, 114, 1, 0.99)",
+		},
+		":focus": {
+			transform: "translateY(4px)",
+		},
 	},
 };
-
-export default class BeerQuiz extends Component<Props, State> {
+class BeerQuiz extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
@@ -93,7 +97,7 @@ export default class BeerQuiz extends Component<Props, State> {
 				{
 					prompt: "how boozy do you want your brew?",
 					options: [
-						{ option: "NONE", answer: 5 },
+						{ option: "i can't hang.", answer: 5 },
 						{ option: "keep it light", answer: 8 },
 						{ option: "just a pinch", answer: 10 },
 						{ option: "I can handle a taste", answer: 12 },
@@ -115,8 +119,8 @@ export default class BeerQuiz extends Component<Props, State> {
 				{
 					prompt: "color would you most like to view?",
 					options: [
-						{ option: "light as possible.", answer: 6 },
-						{ option: "i'll take a tan", answer: 13 },
+						{ option: "as light as possible", answer: 6 },
+						{ option: "I'd take a tan", answer: 13 },
 						{ option: "amber", answer: 20 },
 						{ option: "dark amber", answer: 27 },
 						{ option: "moderately dark", answer: 34 },
@@ -131,7 +135,7 @@ export default class BeerQuiz extends Component<Props, State> {
 						{ option: "before 2011", answer: "01-2011" },
 						{ option: "before 2013", answer: "01-2013" },
 						{ option: "before 2015", answer: "01-2015" },
-						{ option: "any match", answer: `${currentDate}` },
+						{ option: "no preference", answer: `${currentDate}` },
 					],
 				},
 			],
@@ -368,13 +372,13 @@ export default class BeerQuiz extends Component<Props, State> {
 											this.state.currentQuestion
 										].options.indexOf(mappedOption);
 										return (
-											<div
+											<button
 												key={index}
 												style={styles.questionOption}
 												onClick={() => this.answerTally(index)}
 											>
 												<span>{mappedOption.option}</span>
-											</div>
+											</button>
 										);
 									}
 								)}
@@ -386,3 +390,5 @@ export default class BeerQuiz extends Component<Props, State> {
 		);
 	}
 }
+
+export default Radium(BeerQuiz);

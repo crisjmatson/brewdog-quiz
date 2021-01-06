@@ -1,12 +1,10 @@
 import { Component } from "react";
+import Radium from "radium";
 import { Beer } from "./ResponseInterface";
-import {
-	RollbackOutlined,
-	LoadingOutlined,
-	LeftSquareFilled,
-	RightSquareFilled,
-} from "@ant-design/icons";
+import { LeftSquareFilled, RightSquareFilled } from "@ant-design/icons";
+//import { CgUndo } from "react-icons/cg";
 import "./BeerResult.css";
+import BrewInfo from "./BrewInfo";
 
 interface Props {
 	resetView: () => void;
@@ -14,160 +12,109 @@ interface Props {
 	random: boolean;
 }
 interface State {
-	showIngredients: boolean;
-	showMethod: boolean;
-	showTips: boolean;
-	showDesc: boolean;
 	currentBeer: number;
 	loadingView: boolean;
 }
-
-var styles = {
-	resultOuterContainer: {
-		backgroundColor: "grey",
-		/* background:
-			"url(https://images.unsplash.com/photo-1546339166-72eaf6a67c3c?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=2250&q=80) no-repeat center center fixed", */
-		WebkitBackgroundSize: "cover",
-		MozBackgroundSize: "cover",
-		OBackgroundSize: "cover",
-		minHeight: "100vh",
-		minWidth: "100vw",
-		width: "100%",
-		height: "100%",
-		top: 0,
-		left: 0,
-		bottom: 5,
-		color: "white",
-		fontFamily: "'Space Grotesk', sans-serif",
-		lineHeight: 0.8,
-	},
-	loadingView: {
-		minHeight: "100vh",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		fontSize: "40vw",
-		color: "rgba(233,163,38,.9)",
-	},
-	beerContainer: {
-		height: "100%",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	beerTitleContainer: {
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "space-between",
-	},
-	beerTitle: {
-		color: "white",
-		fontSize: "10vw",
-		fontWeight: 900,
-		lineHeight: 1,
-		margin: ".5vh",
-	},
-	beerTitleInfo: {
-		zIndex: 4,
-	},
-	beerImage: {
-		width: "auto",
-		height: "30vh",
-		padding: "1vh",
-		marginLeft: "-15vw",
-		opacity: ".9",
-		zIndex: 0,
-	},
-	pairsWith: {
-		justifyContent: "left",
-		width: "100%",
-	},
-	brewBtnsContainer: {
-		width: "90vw",
-		height: "30%,",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "space-around",
-		lineHeight: 0.7,
-	},
-	brewersButtons: {
-		backgroundColor: "rgba(233,163,38,.9)",
-		fontSize: "1.5vh",
-		marginTop: "2vh",
-		padding: "1%",
-		margin: "3%",
-		border: "thin solid orange",
-		borderRadius: "15px",
-	},
-	brewInfoToggle: {
-		width: "100%",
-		lineHeight: 1.3,
-		fontSize: "100%",
-	},
-	foodPairingsContainer: {
-		display: "flex",
-		justifyContent: "space-around",
-		padding: "1%",
-	},
-	foodPairings: {
-		border: "thin solid orange",
-		borderRadius: "15px",
-		backgroundColor: "rgba(233,163,38,.6)",
-		margin: "2%",
-		fontSize: "2.5vw",
-	},
-	rndmItemHidden: {
+const styles = {
+	hidden: {
 		display: "none",
 	},
-	rndmItemShow: {
-		display: "block",
+	pageContainer: {
+		fontFamily: "'Source Sans Pro', sans-serif",
+		color: "white",
+		backgroundColor: "rgba(56, 18, 8, 0.2)",
+		height: "100vh",
+		minWidth: "100vw",
+		display: "flex",
+		flexFlow: "column nowrap",
+		justifyContent: "center",
+		alignItems: "center",
+		/* backgroundColor: "rgba(56, 18, 8, 0.2)",
+		backgroundBlendMode: "overlay",
+		backgroundSize: "cover",
+		backgroundAttachment: "fixed",
+		fontFamily: "'Source Sans Pro', sans-serif",
+		color: "black",
+		width: "100%",
+		height: "100%",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center", */
 	},
 	navBtnShow: {
 		display: "block",
-		color: "white",
+		color: "rgba(255, 255, 255, 0.4)",
 		fontSize: "3em",
-		margin: ".5em",
+		margin: "15px",
 	},
-	restartBtn: {
-		width: "100%",
+	subPageContainer: {
+		width: "90vw",
+		display: "flex",
+		flexFlow: "column nowrap",
+		justifyContent: "center",
+		alignItems: "space-around",
+	},
+	titleContainer: {
+		margin: "0",
+		display: "flex",
+		flexFlow: "row nowrap",
+		justifyContent: "space-around",
+		alignItems: "center",
+		width: "100vw",
+		height: "30vh",
+	},
+	beerTitle: {
+		fontFamily: "'Space Grotesk', sans-serif",
+		fontWeight: 900,
+		fontSize: "5vh",
+		width: "80vw",
+		height: "36vh",
 		display: "flex",
 		alignItems: "center",
-		justifyContent: "flex-end",
-		padding: "1%",
-		fontSize: "2.5em",
-		color: "orange",
-		zIndex: 99,
+		justifyContent: "center",
+	},
+	beerType: {
+		width: "100%",
+		fontWeight: 400,
+		fontSize: "1.4em",
+		height: "10vh",
+		padding: "10px 20px",
+	},
+	beerStats: {
+		fontFamily: "'Space Grotesk', sans-serif",
+		width: "90vw",
+		height: "auto",
+		display: "flex",
+		flexFlow: "row wrap",
+		justifyContent: "space-around",
+		alignItems: "center",
+	},
+	beerStatBadges: {
+		fontWeight: 550,
+		padding: ".4em",
+		margin: "2px",
+		width: "20%",
+	},
+	beerStatBadgesNull: {
+		fontWeight: 550,
+		padding: ".4em",
+		margin: "2px",
+		width: "20%",
+		color: "rgba(230, 186, 129, 0.6)",
 	},
 };
 
-export default class BeerResult extends Component<Props, State> {
+class BeerResult extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
-			showIngredients: false,
-			showMethod: false,
-			showTips: false,
-			showDesc: true,
 			currentBeer: 0,
 			loadingView: false,
 		};
 	}
-	resetShown = () => {
-		this.setState({
-			showIngredients: false,
-			showMethod: false,
-			showTips: false,
-			showDesc: false,
-		});
-	};
-	closeLoading = setTimeout(() => {
-		this.setState({ loadingView: false });
-	}, 1000);
 
-	navigateBeerList = (direction: string) => {
-		this.setState({ loadingView: true });
+	navigateBeerList = (direction: "back" | "forward") => {
 		let max = this.props.beerAnswer.length - 1;
-		console.log(max, this.props.beerAnswer);
 		let current = this.state.currentBeer;
 		direction === "forward" && current === max
 			? this.setState({ currentBeer: 0 })
@@ -178,230 +125,108 @@ export default class BeerResult extends Component<Props, State> {
 			: direction === "back"
 			? this.setState({ currentBeer: current - 1 })
 			: this.setState({ currentBeer: current });
-		setTimeout(() => {
-			this.setState({ loadingView: false });
-		}, 500);
 	};
 
+	arrowNavigation(e: any) {
+		let max = this.props.beerAnswer.length - 1;
+		let current = this.state.currentBeer;
+		if (e.keyCode === 37) {
+			/* back */
+			current === 0
+				? this.setState({ currentBeer: max - 1 })
+				: this.setState({ currentBeer: current - 1 });
+		} else if (e.keyCode === 40) {
+			/* forward */
+			current === max
+				? this.setState({ currentBeer: 0 })
+				: this.setState({ currentBeer: current + 1 });
+		}
+	}
+
 	render() {
+		/* document.addEventListener("keydown", (e: KeyboardEvent) => {
+			let max = this.props.beerAnswer.length - 1;
+			let current = this.state.currentBeer;
+			if (e.code === "ArrowLeft") {
+				
+				current === 0
+					? this.setState({ currentBeer: max - 1 })
+					: this.setState({ currentBeer: current - 1 });
+			} else if (e.code === "ArrowRight") {
+				
+				current === max
+					? this.setState({ currentBeer: 0 })
+					: this.setState({ currentBeer: current + 1 });
+			}
+		}); */
 		return (
-			<div>
-				{this.state.loadingView ? (
-					<div style={styles.loadingView}>
-						<LoadingOutlined />
+			<div style={styles.pageContainer}>
+				<div style={styles.titleContainer}>
+					<div
+						className="navBtnL"
+						onClick={() => this.navigateBeerList("back")}
+						style={this.props.random ? styles.hidden : styles.navBtnShow}
+					>
+						<LeftSquareFilled />
 					</div>
-				) : (
-					<div style={styles.resultOuterContainer}>
-						<div style={styles.restartBtn}>
-							<span
-								onClick={() =>
-									/* window.location.reload() */ this.props.resetView()
-								}
-							>
-								<RollbackOutlined />
-							</span>
-						</div>
-						<div style={styles.beerTitleContainer}>
-							<span
-								onClick={() => this.navigateBeerList("back")}
-								style={
-									this.props.random ? styles.rndmItemHidden : styles.navBtnShow
-								}
-							>
-								<LeftSquareFilled />
-							</span>
-							<div style={styles.beerTitleInfo}>
-								<div
-									style={
-										this.props.random
-											? styles.rndmItemShow
-											: styles.rndmItemHidden
-									}
-								>
-									<p>
-										sorry! no beers were a fit. <br />
-										here's a <s>shot</s> pint in the dark:
-									</p>
-								</div>
-								<h3 style={styles.beerTitle}>
-									{this.props.beerAnswer[this.state.currentBeer].name}
-								</h3>
-								<p>
-									{this.props.beerAnswer[this.state.currentBeer].tagline.slice(
-										0,
-										this.props.beerAnswer[this.state.currentBeer].tagline
-											.length - 1
-									)}
-								</p>
-								<p>
-									ABV: {this.props.beerAnswer[this.state.currentBeer].abv} --
-									IBU: {this.props.beerAnswer[this.state.currentBeer].ibu} --
-									EBC: {this.props.beerAnswer[this.state.currentBeer].ebc}
-								</p>
-								<p>
-									est.{" "}
-									{this.props.beerAnswer[this.state.currentBeer].first_brewed}
-								</p>
-							</div>
-							<img
-								style={styles.beerImage}
-								src={
-									this.props.beerAnswer[this.state.currentBeer].image_url ===
-									null
-										? "https://images.unsplash.com/photo-1521572008054-962cefc90ce7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80"
-										: this.props.beerAnswer[this.state.currentBeer].image_url
-								}
-								alt="beer answer"
-							/>
-							<span
-								onClick={() => this.navigateBeerList("forward")}
-								style={
-									this.props.random ? styles.rndmItemHidden : styles.navBtnShow
-								}
-							>
-								<RightSquareFilled />
-							</span>
-						</div>
-
-						{/* !! FOOD PAIRING !! */}
-						<div>
-							<span style={styles.pairsWith}>
-								pairs with: <br />
-							</span>
-							<div style={styles.foodPairingsContainer}>
-								{this.props.beerAnswer[this.state.currentBeer].food_pairing.map(
-									(foodItem) => {
-										return (
-											<span key={foodItem} style={styles.foodPairings}>
-												{foodItem}
-											</span>
-										);
-									}
-								)}
-							</div>
-						</div>
-						{/* !! MORE INFO DISPLAY !! */}
-						<div>
-							{/* !! BUTTONS !! */}
-							<div style={styles.brewBtnsContainer}>
-								<button
-									style={styles.brewersButtons}
-									onClick={() => {
-										this.resetShown();
-									}}
-								>
-									description
-								</button>
-								<button
-									style={styles.brewersButtons}
-									onClick={() => {
-										let current = this.state.showIngredients;
-										this.resetShown();
-										this.setState({ showIngredients: !current });
-									}}
-								>
-									brew ingredients
-								</button>
-								<button
-									style={styles.brewersButtons}
-									onClick={() => {
-										let current = this.state.showMethod;
-										this.resetShown();
-										this.setState({ showMethod: !current });
-									}}
-								>
-									brewing method
-								</button>
-								<button
-									style={styles.brewersButtons}
-									onClick={() => {
-										let current = this.state.showTips;
-										this.resetShown();
-										this.setState({ showTips: !current });
-									}}
-								>
-									brewer's tips
-								</button>
-							</div>
-
-							{/* !! BREW INFO !! */}
-							<div style={styles.brewInfoToggle}>
-								{this.state.showDesc ? (
-									this.props.beerAnswer[this.state.currentBeer].description
-								) : this.state.showIngredients ? (
-									<div>
-										<div>
-											Malts:{" "}
-											{this.props.beerAnswer[
-												this.state.currentBeer
-											].ingredients.malt.map((ingredient) => {
-												return (
-													<span key={ingredient.name}>
-														{ingredient.name}, {ingredient.amount.value}{" "}
-														{ingredient.amount.unit};{"  "}
-													</span>
-												);
-											})}
-										</div>
-										<div>
-											Hops:{" "}
-											{this.props.beerAnswer[
-												this.state.currentBeer
-											].ingredients.hops.map((ingredient) => {
-												return (
-													<span key={ingredient.name + ingredient.amount.value}>
-														{ingredient.name}, {ingredient.amount.value}{" "}
-														{ingredient.amount.unit};{"  "}
-													</span>
-												);
-											})}
-										</div>
-										<div>
-											Yeast:{" "}
-											{
-												this.props.beerAnswer[this.state.currentBeer]
-													.ingredients.yeast
-											}
-										</div>
-									</div>
-								) : this.state.showMethod ? (
-									<div>
-										<p>
-											mash:{" "}
-											{this.props.beerAnswer[
-												this.state.currentBeer
-											].method.mash_temp.map((mash) => {
-												return (
-													<span key={`${mash.temp.value}${mash.temp.unit}`}>
-														{mash.temp.value} degrees {mash.temp.unit} for{" "}
-														{mash.duration} minutes
-													</span>
-												);
-											})}
-										</p>
-										<span>
-											fermentation:{" "}
-											{
-												this.props.beerAnswer[this.state.currentBeer].method
-													.fermentation.temp.value
-											}{" "}
-											degrees{" "}
-											{
-												this.props.beerAnswer[this.state.currentBeer].method
-													.fermentation.temp.unit
-											}
-										</span>
-									</div>
-								) : this.state.showTips ? (
-									this.props.beerAnswer[this.state.currentBeer].brewers_tips
-								) : (
-									this.props.beerAnswer[this.state.currentBeer].description
-								)}
-							</div>
-						</div>
+					<span style={styles.beerTitle}>
+						{" "}
+						{this.props.beerAnswer[
+							this.state.currentBeer
+						].name.toUpperCase()}{" "}
+					</span>
+					<div
+						className="navBtnR"
+						onClick={() => this.navigateBeerList("forward")}
+						style={this.props.random ? styles.hidden : styles.navBtnShow}
+					>
+						<RightSquareFilled />
 					</div>
-				)}
+				</div>
+				<div>
+					<div style={styles.subPageContainer}>
+						<span style={styles.beerType}>
+							{" "}
+							{this.props.beerAnswer[this.state.currentBeer].tagline.slice(
+								0,
+								this.props.beerAnswer[this.state.currentBeer].tagline.length - 1
+							)}
+						</span>
+						<div style={styles.beerStats}>
+							<span style={styles.beerStatBadges}>
+								<b>ABV:</b> {this.props.beerAnswer[this.state.currentBeer].abv}
+							</span>
+							{this.props.beerAnswer[this.state.currentBeer].ibu !== null ? (
+								<span style={styles.beerStatBadges}>
+									<b>IBU:</b>{" "}
+									{this.props.beerAnswer[this.state.currentBeer].ibu}
+								</span>
+							) : (
+								<span style={styles.beerStatBadgesNull}>IBU: N/A</span>
+							)}
+							{this.props.beerAnswer[this.state.currentBeer].ebc !== null ? (
+								<span style={styles.beerStatBadges}>
+									<b>EBC:</b>{" "}
+									{this.props.beerAnswer[this.state.currentBeer].ebc}
+								</span>
+							) : (
+								<span style={styles.beerStatBadgesNull}>EBC: N/A</span>
+							)}
+							<span style={styles.beerStatBadges}>
+								<b>EST:</b>{" "}
+								{this.props.beerAnswer[
+									this.state.currentBeer
+								].first_brewed.slice(3)}
+							</span>
+						</div>
+						<BrewInfo
+							beerAnswer={this.props.beerAnswer}
+							currentBeer={this.state.currentBeer}
+						/>
+					</div>
+				</div>
 			</div>
 		);
 	}
 }
+export default Radium(BeerResult);
