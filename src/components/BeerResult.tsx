@@ -2,7 +2,7 @@ import { Component } from "react";
 import Radium from "radium";
 import { Beer } from "./ResponseInterface";
 import { LeftSquareFilled, RightSquareFilled } from "@ant-design/icons";
-//import { CgUndo } from "react-icons/cg";
+import { CgUndo } from "react-icons/cg";
 import "./BeerResult.css";
 import BrewInfo from "./BrewInfo";
 
@@ -13,7 +13,6 @@ interface Props {
 }
 interface State {
 	currentBeer: number;
-	loadingView: boolean;
 }
 const styles = {
 	hidden: {
@@ -43,7 +42,7 @@ const styles = {
 	},
 	navBtnShow: {
 		display: "block",
-		color: "rgba(255, 255, 255, 0.4)",
+		color: "rgba(255, 255, 255, 0.7)",
 		fontSize: "3em",
 		margin: "15px",
 	},
@@ -109,7 +108,6 @@ class BeerResult extends Component<Props, State> {
 		super(props);
 		this.state = {
 			currentBeer: 0,
-			loadingView: false,
 		};
 	}
 
@@ -161,6 +159,12 @@ class BeerResult extends Component<Props, State> {
 		}); */
 		return (
 			<div style={styles.pageContainer}>
+				<div>
+					<CgUndo
+						className="restartBtn"
+						onClick={() => this.props.resetView()}
+					/>
+				</div>
 				<div style={styles.titleContainer}>
 					<div
 						className="navBtnL"
@@ -171,9 +175,7 @@ class BeerResult extends Component<Props, State> {
 					</div>
 					<span style={styles.beerTitle}>
 						{" "}
-						{this.props.beerAnswer[
-							this.state.currentBeer
-						].name.toUpperCase()}{" "}
+						{this.props.beerAnswer[this.state.currentBeer].name.toUpperCase()}
 					</span>
 					<div
 						className="navBtnR"

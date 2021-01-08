@@ -26,7 +26,7 @@ const styles = {
 		fontSize: ".2em",
 	},
 	descriptionContent: {
-		fontSize: "1.2em",
+		fontSize: "1.4em",
 		lineHeight: 1.1,
 		height: "30vh",
 		overflow: "scroll",
@@ -34,9 +34,15 @@ const styles = {
 	pairingContainer: {
 		width: "auto",
 		height: "auto",
+		display: "flex",
+		flexFlow: "row wrap",
+		alignItems: "center",
+		justifyContent: "center",
 	},
 	foodPairings: {
+		fontSize: "1.2em",
 		lineHeight: 1.1,
+		margin: ".2em",
 	},
 };
 
@@ -59,17 +65,22 @@ export default class BrewInfo extends Component<Props, State> {
 					<TabPane tab="Description" key="1" style={styles.descriptionContent}>
 						{this.props.beerAnswer[this.props.currentBeer].description}
 					</TabPane>
-					<TabPane tab="Ingredients" key="2">
+					<TabPane tab="Ingredients" key="2" style={styles.descriptionContent}>
+						{" "}
 						<div>
 							{this.props.beerAnswer[this.props.currentBeer].ingredients.malt
 								.length ? (
 								<div>
-									Malts:{" "}
+									<b>Malts: {"  "}</b>
 									{this.props.beerAnswer[
 										this.props.currentBeer
 									].ingredients.malt.map((ingredient) => {
 										return (
-											<span key={ingredient.name}>
+											<span
+												key={this.props.beerAnswer[
+													this.props.currentBeer
+												].ingredients.malt.indexOf(ingredient)}
+											>
 												{ingredient.name}, {ingredient.amount.value}{" "}
 												{ingredient.amount.unit};{"  "}
 											</span>
@@ -81,15 +92,20 @@ export default class BrewInfo extends Component<Props, State> {
 									<p>no malt information provided</p>
 								</div>
 							)}
+							<hr className="divider" />
 							{this.props.beerAnswer[this.props.currentBeer].ingredients.hops
 								.length ? (
 								<div>
-									Hops:{" "}
+									<b>Hops:</b>{" "}
 									{this.props.beerAnswer[
 										this.props.currentBeer
 									].ingredients.hops.map((ingredient) => {
 										return (
-											<span key={ingredient.name + ingredient.amount.value}>
+											<span
+												key={this.props.beerAnswer[
+													this.props.currentBeer
+												].ingredients.hops.indexOf(ingredient)}
+											>
 												{ingredient.name}, {ingredient.amount.value}{" "}
 												{ingredient.amount.unit};{"  "}
 											</span>
@@ -101,10 +117,11 @@ export default class BrewInfo extends Component<Props, State> {
 									<p>no hops imformation provided</p>
 								</div>
 							)}
+							<hr className="divider" />
 							{this.props.beerAnswer[this.props.currentBeer].ingredients
 								.yeast ? (
 								<div>
-									Yeast:{" "}
+									<b>Yeast:</b>{" "}
 									{
 										this.props.beerAnswer[this.props.currentBeer].ingredients
 											.yeast
@@ -117,15 +134,17 @@ export default class BrewInfo extends Component<Props, State> {
 							)}
 						</div>
 					</TabPane>
-					<TabPane tab="Method" key="3">
+					<TabPane tab="Method" key="3" style={styles.descriptionContent}>
 						<div>
 							<p>
-								mash:{" "}
+								<b>Mash:</b>{" "}
 								{this.props.beerAnswer[
 									this.props.currentBeer
 								].method.mash_temp.map((mash) => {
 									return (
-										<span key={`${mash.temp.value}${mash.temp.unit}`}>
+										<span key={this.props.beerAnswer[
+											this.props.currentBeer
+										].method.mash_temp.indexOf(mash)}>
 											{mash.temp.value} degrees {mash.temp.unit} for{" "}
 											{mash.duration} minutes
 										</span>
@@ -133,7 +152,7 @@ export default class BrewInfo extends Component<Props, State> {
 								})}
 							</p>
 							<span>
-								fermentation:{" "}
+								<b>Fermentation:</b>{" "}
 								{
 									this.props.beerAnswer[this.props.currentBeer].method
 										.fermentation.temp.value
@@ -146,10 +165,10 @@ export default class BrewInfo extends Component<Props, State> {
 							</span>
 						</div>
 					</TabPane>
-					<TabPane tab="Tips" key="4">
+					<TabPane tab="Tips" key="4" style={styles.descriptionContent}>
 						{this.props.beerAnswer[this.props.currentBeer].brewers_tips}
 					</TabPane>
-					<TabPane tab="Pairings" key="5">
+					<TabPane tab="Pairings" key="5" style={styles.descriptionContent}>
 						<div style={styles.pairingContainer}>
 							{this.props.beerAnswer[this.props.currentBeer].food_pairing.map(
 								(foodItem) => {
@@ -182,7 +201,8 @@ export default class BrewInfo extends Component<Props, State> {
 												].food_pairing.indexOf(foodItem)}
 												style={styles.foodPairings}
 											>
-												{foodItem.toLowerCase()},{"  "}
+												{"     "}
+												{foodItem.toLowerCase()},{"     "}
 											</p>
 										);
 								}
