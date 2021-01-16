@@ -69,7 +69,7 @@ const styles = {
 		backgroundColor: "rgba(127,42,18,.8)",
 		color: "white",
 		fontSize: "1.7em",
-		overflow: "auto",
+		overflow: "hidden",
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",

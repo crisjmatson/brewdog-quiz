@@ -1,5 +1,6 @@
 import { Component } from "react";
 import Radium from "radium";
+import { Tooltip } from "antd";
 import { Beer } from "./ResponseInterface";
 import { LeftSquareFilled, RightSquareFilled } from "@ant-design/icons";
 import { CgUndo } from "react-icons/cg";
@@ -17,6 +18,11 @@ interface State {
 const styles = {
 	hidden: {
 		display: "none",
+	},
+	randomBeer: {
+		width: "60vw",
+		fontWeight: 200,
+		fontSize: "15px",
 	},
 	pageContainer: {
 		fontFamily: "'Source Sans Pro', sans-serif",
@@ -159,11 +165,25 @@ class BeerResult extends Component<Props, State> {
 		}); */
 		return (
 			<div style={styles.pageContainer}>
-				<div>
-					<CgUndo
-						className="restartBtn"
-						onClick={() => this.props.resetView()}
-					/>
+				<div className="restartBtn">
+					{this.props.random ? (
+						<div style={styles.randomBeer}>
+							sorry! no beers matched your answers. <br />
+							here's a <s style={{ color: "rgba(252, 167, 69, .7)" }}>
+								shot
+							</s>{" "}
+							beer in the dark.{" "}
+						</div>
+					) : (
+						<div style={styles.hidden}></div>
+					)}
+					<Tooltip
+						placement="left"
+						title="Restart Quiz"
+						color="rgba(252, 167, 69, .7)"
+					>
+						<CgUndo onClick={() => this.props.resetView()} />
+					</Tooltip>
 				</div>
 				<div style={styles.titleContainer}>
 					<div

@@ -19,8 +19,8 @@ const styles = {
 		padding: "2%",
 	},
 	tabElement: {
-		height: "50vh",
-		width: "80vw",
+		minHeight: "50vh",
+		minWidth: "80vw",
 	},
 	descriptionTab: {
 		fontSize: ".2em",
@@ -29,7 +29,7 @@ const styles = {
 		fontSize: "1.4em",
 		lineHeight: 1.1,
 		height: "30vh",
-		overflow: "scroll",
+		overflow: "auto",
 	},
 	pairingContainer: {
 		width: "auto",
@@ -40,6 +40,9 @@ const styles = {
 		justifyContent: "center",
 	},
 	foodPairings: {
+		border: "thick solid transparent",
+		backgroundColor: "rgba(230, 186, 129, 0.3)",
+		borderRadius: "15px",
 		fontSize: "1.2em",
 		lineHeight: 1.1,
 		margin: ".2em",
@@ -142,9 +145,11 @@ export default class BrewInfo extends Component<Props, State> {
 									this.props.currentBeer
 								].method.mash_temp.map((mash) => {
 									return (
-										<span key={this.props.beerAnswer[
-											this.props.currentBeer
-										].method.mash_temp.indexOf(mash)}>
+										<span
+											key={this.props.beerAnswer[
+												this.props.currentBeer
+											].method.mash_temp.indexOf(mash)}
+										>
 											{mash.temp.value} degrees {mash.temp.unit} for{" "}
 											{mash.duration} minutes
 										</span>
@@ -181,15 +186,19 @@ export default class BrewInfo extends Component<Props, State> {
 										].food_pairing.indexOf(foodItem)
 									) {
 										return (
-											<p
-												className="foodPair"
-												key={this.props.beerAnswer[
-													this.props.currentBeer
-												].food_pairing.indexOf(foodItem)}
-												style={styles.foodPairings}
-											>
-												& {"  "}
-												{foodItem.toLowerCase()}.
+											<p>
+												{" "}
+												&
+												<p
+													className="foodPair"
+													key={this.props.beerAnswer[
+														this.props.currentBeer
+													].food_pairing.indexOf(foodItem)}
+													style={styles.foodPairings}
+												>
+													{"  "}
+													{foodItem.toLowerCase()}
+												</p>
 											</p>
 										);
 									} else

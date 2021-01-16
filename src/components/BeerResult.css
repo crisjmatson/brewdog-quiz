@@ -8,6 +8,8 @@
 	margin: 4vw;
 	font-size: 44px;
 	color: rgb(252, 167, 69);
+	display: flex;
+	align-items: center;
 }
 .navbar {
 	position: absolute;
